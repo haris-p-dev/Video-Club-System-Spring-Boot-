@@ -1,9 +1,5 @@
 package com.example.demo.DTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jackson.autoconfigure.JacksonProperties;
-import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class MovieDto {
 
@@ -24,16 +20,9 @@ public class MovieDto {
     public long getId() {
         return id;
     }
-      public String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public int getYear() {
-        return year;
-    }
-
-    public String getDirector() {
-        return director;
-    }
 }
 

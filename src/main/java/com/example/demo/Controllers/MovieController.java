@@ -2,10 +2,10 @@ package com.example.demo.Controllers;
 
 
 import com.example.demo.DTO.MovieDto;
+import com.example.demo.Services.StatisticsService;
 import com.example.demo.Services.VideoClubServices;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -13,6 +13,7 @@ import java.util.List;
 @RequestMapping("/VideoClub")
 public class MovieController {
 
+    public StatisticsService statsService;
     public VideoClubServices vCServices;  // makes instances ready for use
 
     public MovieController(VideoClubServices vCServices){
@@ -28,14 +29,14 @@ public class MovieController {
     public MovieDto getById(@RequestParam Long id){
         return vCServices.getById(id);}
 
-    @PostMapping("/movies")
+    @PostMapping("/movies/add/")
     public void addMovie(@RequestBody MovieDto movie){
         vCServices.addMovie(movie);
     }
 
     @GetMapping("/movies/count")
     public long countRegistered(){
-        return vCServices.count();
+        return statsService.count();
     }
 
     @DeleteMapping("/movies/{id}")
