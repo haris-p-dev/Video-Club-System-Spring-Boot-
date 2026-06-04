@@ -7,44 +7,30 @@ import java.util.List;
 
 
 @Service
-public class VideoClubServices {
+public class VideoClubService {
 
-    private List<MovieDto> movieList = new ArrayList<>();
+    private final List<MovieDto> movies = new ArrayList<>();
 
-    private MovieDto instance;
-
-
-    public void addMovie(MovieDto movie){
-        movieList.add(movie);
+    public List<MovieDto> getAll() {
+        return new ArrayList<>(movies);
     }
 
-    public List getRegistered(){
-        return movieList;
+    public MovieDto getById(Long id) {
+        return movies.stream()
+                .filter(m -> m.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
-    public MovieDto getById(Long id){
-        for(MovieDto movie : movieList){
-            if (id.equals(movie.getId())){
-                return movie;
-            }
-        }
-        return null;
+    public void addMovie(MovieDto movie) {
+        movies.add(movie);
     }
 
-
-    public long getListSize(){
-        return movieList.size();
+    public void remove(Long id) {
+        movies.removeIf(m -> m.getId().equals(id));
     }
 
-    public String remove(Long id){
-        for(MovieDto movie : movieList){
-            if (id.equals(movie.getId())){
-                movieList.remove(movie);
-                return "Movie removed";
-            }
-        }
-        return "Movie does not exists in list";
+    public int size() {
+        return movies.size();
     }
-
-
 }

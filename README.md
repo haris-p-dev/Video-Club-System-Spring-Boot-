@@ -63,9 +63,9 @@ Handles HTTP requests.
 Endpoints:
 
 GET /movies → get all movies  --
-GET /movies/{id} → get movie by id  
+GET /movies/{id} → get movie by id  --
 POST /movies → add movie  --
-DELETE /movies/{id} → delete movie  
+DELETE /movies/{id} → delete movie  --
 GET /movies/count → get number of movies --
 
 ---

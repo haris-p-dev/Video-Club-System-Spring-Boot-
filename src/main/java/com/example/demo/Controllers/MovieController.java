@@ -3,44 +3,48 @@ package com.example.demo.Controllers;
 
 import com.example.demo.DTO.MovieDto;
 import com.example.demo.Services.StatisticsService;
-import com.example.demo.Services.VideoClubServices;
+import com.example.demo.Services.VideoClubService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/VideoClub")
+@RequestMapping("/video-club/movies")
 public class MovieController {
 
-    public StatisticsService statsService;
-    public VideoClubServices vCServices;  // makes instances ready for use
+    private final VideoClubService videoClubService;
+    private final StatisticsService statisticsService;
 
-    public MovieController(VideoClubServices vCServices){
-        this.vCServices=vCServices;
+    public MovieController(VideoClubService videoClubService,
+                           StatisticsService statisticsService) {
+        this.videoClubService = videoClubService;
+        this.statisticsService = statisticsService;
     }
 
-    @GetMapping("/movies")
-    public List getAll(){
-        return vCServices.getRegistered();
+    @GetMapping
+    public List<MovieDto> getAll() {
+        return videoClubService.getAll();
     }
 
-    @GetMapping("/movies/{id}")
-    public MovieDto getById(@RequestParam Long id){
-        return vCServices.getById(id);}
-
-    @PostMapping("/movies/add/")
-    public void addMovie(@RequestBody MovieDto movie){
-        vCServices.addMovie(movie);
+    @GetMapping("/{id}")
+    public MovieDto getById(@PathVariable Long id) {
+        return videoClubService.getById(id);
     }
 
-    @GetMapping("/movies/count")
-    public long countRegistered(){
-        return statsService.count();
+    @PostMapping
+    public void addMovie(@RequestBody MovieDto movie) {
+        videoClubService.addMovie(movie);
     }
 
-    @DeleteMapping("/movies/{id}")
-    public void deleteMovie(@RequestParam long id){
-        vCServices.remove(id);
+    @DeleteMapping("/{id}")
+    public void deleteMovie(@PathVariable Long id) {
+        videoClubService.remove(id);
+    }
+
+    @GetMapping("/count")
+    public long count() {
+        return statisticsService.count();
     }
 }
+
