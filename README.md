@@ -1,110 +1,143 @@
-# Video Club System (Spring Boot Exercise)
+# Video Club System
 
-## Goal
-Create a simple REST API for managing movies using Spring Boot concepts:
-- Controller
-- Service
-- DTO
-- Constructor Injection
-- Beans
+A simple REST API built with Spring Boot to demonstrate core backend development concepts such as Controllers, Services, DTOs, Dependency Injection, and Spring Beans.
 
----
+## Overview
 
-## Movie DTO
+The application manages a collection of movies and exposes REST endpoints for common CRUD operations. Data is stored in memory using a Java List, making the project lightweight and focused on Spring fundamentals rather than database integration.
 
-A movie has:
-- id
-- title
-- director
-- year
+## Technologies Used
 
-One DTO = one movie object.
+* Java
+* Spring Boot
+* Maven
+* REST API
 
----
+## Project Structure
 
-## Movie Service
+The application follows a layered architecture:
 
-Responsible for managing movies.
+```text
+Controller → Service → Data
+```
 
-Functions:
-- get all movies
-- get movie by id
-- add movie
-- delete movie
+### Components
 
-Data is stored in memory:
+#### MovieController
 
+Handles incoming HTTP requests and returns appropriate responses.
+
+#### MovieService
+
+Contains the business logic for managing movies.
+
+Responsibilities:
+
+* Retrieve all movies
+* Retrieve a movie by ID
+* Add a new movie
+* Delete an existing movie
+
+Movie data is stored in an in-memory collection:
+
+```java
 List<MovieDto>
+```
 
-This acts like a fake database.
+#### StatisticsService
 
----
+Provides basic statistics related to the movie collection.
 
-## Statistics Service
+Responsibilities:
 
-Responsible for simple statistics.
+* Count the total number of movies
 
-Function:
-- count movies
+This service does not maintain its own data and relies on `MovieService`.
 
-It does NOT store data.
+## Data Model
 
-It uses MovieService.
+### MovieDto
 
-Flow:
-StatisticsService → MovieService → List<MovieDto>
+Represents a movie object.
 
----
+Fields:
 
-## Controller
+* id
+* title
+* director
+* year
 
-Handles HTTP requests.
+The DTO is used to transfer movie data between application layers.
 
-Endpoints:
+## API Endpoints
 
-GET /movies → get all movies  --
-GET /movies/{id} → get movie by id  --
-POST /movies → add movie  --
-DELETE /movies/{id} → delete movie  --
-GET /movies/count → get number of movies --
+| Method | Endpoint        | Description                |
+| ------ | --------------- | -------------------------- |
+| GET    | `/movies`       | Retrieve all movies        |
+| GET    | `/movies/{id}`  | Retrieve a movie by ID     |
+| POST   | `/movies`       | Add a new movie            |
+| DELETE | `/movies/{id}`  | Delete a movie             |
+| GET    | `/movies/count` | Get total number of movies |
 
----
+## Dependency Injection
 
-## Beans
+All dependencies are injected using constructor injection.
 
-Spring manages these beans:
-- MovieController
-- MovieService
-- StatisticsService
+Relationships:
 
-DTO is NOT a bean.
+```text
+MovieController
+ ├── MovieService
+ └── StatisticsService
 
----
+StatisticsService
+ └── MovieService
+```
 
-## Constructor Injection
+## Spring Beans
 
-All dependencies must be injected via constructors.
+The following classes are managed by the Spring container:
 
-Flow:
+* MovieController
+* MovieService
+* StatisticsService
 
-MovieController → MovieService  
-MovieController → StatisticsService  
-StatisticsService → MovieService
-
----
+`MovieDto` is a simple data object and is not managed as a Spring Bean.
 
 ## Architecture
 
-User → MovieController → MovieService → List<MovieDto>
-↘ StatisticsService ↗
+```text
+User
+  │
+  ▼
+MovieController
+  │
+  ├──► MovieService ───► List<MovieDto>
+  │
+  └──► StatisticsService
+            │
+            ▼
+      MovieService
+```
 
----
+## Learning Objectives
 
-## Key Ideas
+This project was created to practice and demonstrate:
 
-- DTO = simple data object
-- Service = business logic
-- Controller = API layer
-- List = in-memory storage
-- Spring Beans = objects managed by Spring
-- IoC = Spring creates and connects objects
+* REST API development with Spring Boot
+* Layered application architecture
+* DTO usage
+* Service-based business logic
+* Constructor-based Dependency Injection
+* Spring Bean management
+* Inversion of Control (IoC)
+* Separation of concerns
+
+## Possible extensions include:
+
+* PostgreSQL integration
+* Spring Data JPA
+* Validation annotations
+* Global exception handling
+* Unit and integration testing
+* Authentication and authorization
